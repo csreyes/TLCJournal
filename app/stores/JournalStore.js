@@ -1,9 +1,12 @@
 import alt from '../alt';
 import JournalActions from '../actions/JournalActions';
+import GoalActions from '../actions/GoalActions';
+
 
 class JournalStore {
   constructor() {
     this.bindActions(JournalActions);
+    this.bindActions(GoalActions);
     this.entries = {
       day: {
         text: '',
@@ -15,6 +18,10 @@ class JournalStore {
       }
     };
     this.mode = this.setMode();
+    this.goals = {
+      daily: [],
+      longTerm: []
+    };
   }
 
   setMode() {
@@ -47,6 +54,35 @@ class JournalStore {
 
   onGetJournalDataSuccess(response) {
     this.entries = response;
+  }
+
+  onSaveGoalItemSuccess(goal) {
+    var replaced = false;
+    if (goal.startDate === goal.setCompletionDate) {
+      this.goals.daily.forEach(function(singleGoal, i) {
+        if (singleGoal.entryId === goal.entryId) {
+          this.goals.daily[i] = goal;
+          replaced = true;
+        }
+      }.bind(this))
+      if (!replaced) {
+        this.goals.daily.push(goal);
+      }
+    } else {
+      this.goals.longTerm.forEach(function(singleGoal, i) {
+        if (singleGoal.entryId === goal.entryId) {
+          this.goals.longTerm[i] = goal;
+          replaced = true;
+        }
+      }.bind(this))
+      if (!replaced) {
+        this.goals.longTerm.push(goal);
+      }
+    }
+  }
+
+  onGetGoalDataSuccess(data) {
+    this.goals = data;
   }
 
   onVoteFail(errorMessage) {

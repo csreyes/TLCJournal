@@ -27,7 +27,7 @@ class JournalActions {
 
   saveJournalEntry(data) {
     $.ajax({
-      type: 'POST',
+      type: 'PUT',
       url: '/api/entries',
       data: {
         date: data.date,

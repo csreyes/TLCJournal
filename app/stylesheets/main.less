@@ -66,6 +66,7 @@ h3 {
   order: 1;
   flex-grow: 1;
   height: 100%;
+  width: 0;
 }
 
 .journal-write-container {
@@ -78,14 +79,22 @@ h3 {
   order: 3;
   flex-grow: 1;
   height: 100%;
+  width: 0;
 }
 
 .daily-goal-header {
   height: 50px;
+  text-align: center;
+  font-size: 20px;
+  font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 .daily-goal-list {
   height: 592px;
+}
+
+.list-group-item {
+  text-align: center;
 }
 
 
@@ -142,6 +151,10 @@ textarea.form-control {
   resize: none;
 }
 
+.date {
+  width: 50%;
+}
+
 .form-group {
   margin-bottom: 0;
 }
@@ -155,10 +168,26 @@ textarea.form-control {
 
 .longterm-goal-header{
   height: 50px;
+  text-align: center;
+  font-size: 20px;
+  font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 .longterm-goal-list {
   height: 592px;
+}
+
+.modal-title {
+  text-align: center;
+  font-weight: bold;
+}
+
+.modal-footer {
+  text-align: center;
+}
+
+h5 {
+  font-weight: bold;
 }
 
 .test {

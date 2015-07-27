@@ -52,7 +52,7 @@ class JournalWrite extends React.Component {
           <Button className='journal-write-header-change-mode' bsSize='xsmall' onClick={JournalActions.swapMode}>Change mode?</Button>
         </div>
         <div className='journal-write-text-container test'>
-          <Input ref='journalEntryInput' className='journal-write-textarea' onChange={this.handleJournalInput.bind(this)} value={this.props.entries[this.props.mode].text} type='textarea' placeholder='Share your thoughts...' />
+          <Input ref='journalEntryInput' className='journal-write-textarea' onChange={this.handleJournalInput.bind(this)} value={this.props.entries[this.props.mode] ? this.props.entries[this.props.mode].text : ''} type='textarea' placeholder='Share your thoughts...' />
           <Button bsStyle='primary' className='journal-write-textarea-save-button'  onClick={this.handleSaveEntry.bind(this)}>Save Entry</Button>
         </div>
       </div>

@@ -18,6 +18,8 @@ var config = require('./config');
 var routes = require('./app/routes');
 var Character = require('./models/character');
 var JournalEntries = require('./models/journalEntries');
+var Goals = require('./models/goals');
+
 
 var app = express();
 
@@ -34,7 +36,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(favicon(path.join(__dirname, 'public', 'favicon.png')));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.post('/api/entries', function(req, res) {
+app.put('/api/entries', function(req, res) {
   var text = req.body.text;
   var mode = req.body.mode;
   var date = req.body.date;
@@ -96,6 +98,89 @@ app.get('/api/entries', function(req, res) {
       res.send(response);
     });
   });
+});
+
+app.get('/api/goals', function(req, res) {
+  var date = req.query.date;
+  var response = {};
+
+  Goals.find({}, function(err, allGoals) {
+    if (err) {
+      console.log('error getting goals');
+      return;
+    }
+
+    var relevantGoals = allGoals.filter(function(singleGoal) {
+      var startTime = new Date(singleGoal.startDate).getTime();
+      var setCompletionTime = new Date(singleGoal.setCompletionDate).getTime();
+      var currentTime = new Date(date).getTime();
+
+      return currentTime >= startTime && currentTime <= setCompletionTime;
+
+    });
+
+    var goals = {
+      daily: [],
+      longTerm: []
+    };
+
+    relevantGoals.forEach(function(goal) {
+      if (goal.startDate === goal.setCompletionDate) {
+        goals.daily.push(goal);
+      } else {
+        goals.longTerm.push(goal);
+      }
+    });
+    console.log('endgoals=', goals);
+
+    res.send(goals);
+  });
+});
+
+app.put('/api/goals', function(req, res) {
+  var entryId = req.body.entryId || null;
+  var description = req.body.description;
+  var motivation = req.body.motivation;
+  var startDate= req.body.startDate;
+  var setCompletionDate= req.body.setCompletionDate;
+  var completed = req.body.completed || null;
+  var completionDate = req.body.completionDate || null;
+
+  var query = {entryId: entryId};
+
+  var update = {
+    description: description,
+    motivation: motivation,
+    startDate: startDate,
+    setCompletionDate: setCompletionDate,
+    completed: completed,
+    completionDate: completionDate
+  };
+
+
+  var mongooseCB = function(err, entry) {
+    if (err) {
+      console.log('entry update error, mongooseCB', err);
+      return;
+    }
+
+    res.send(entry);
+  };
+
+  Goals.findOne(query, function (err, entry) {
+    if (err) {
+      console.log('entry update error, findOne JournalEntries');
+      return;
+    }
+    if (entry) {
+      Goals.findOneAndUpdate(query, update, {new: true}, function(err,entry) {
+        res.send(entry);
+      });
+    } else {
+      update.entryId = mongoose.Types.ObjectId();
+      Goals.create(update, mongooseCB)
+    }
+  })
 });
 
 /**
