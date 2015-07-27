@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router';
-import HomeStore from '../stores/HomeStore'
-import HomeActions from '../actions/HomeActions';
+// import HomeStore from '../stores/HomeStore'
+// import HomeActions from '../actions/HomeActions';
 import JournalMainContainer from './JournalMainContainer';
 
 class Journal extends React.Component {
@@ -10,11 +10,11 @@ class Journal extends React.Component {
   }
 
   componentDidMount() {
-    HomeStore.listen(this.onChange);
+    // HomeStore.listen(this.onChange);
   }
 
   componentWillUnmount() {
-    HomeStore.unlisten(this.onChange);
+    // HomeStore.unlisten(this.onChange);
   }
 
   onChange(state) {
@@ -26,7 +26,7 @@ class Journal extends React.Component {
     return (
       <div className='journal-outer-container test'>
         <div className='journal-outer-container-header test'>
-          <h3 className='journal-outer-container-header-innertext'>Daily View</h3>
+          <h3 className='journal-outer-container-header-innertext'>TLC Journal</h3>
         </div>
         <JournalMainContainer />
       </div>

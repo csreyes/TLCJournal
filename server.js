@@ -17,6 +17,7 @@ var _ = require('underscore');
 var config = require('./config');
 var routes = require('./app/routes');
 var Character = require('./models/character');
+var JournalEntries = require('./models/journalEntries');
 
 var app = express();
 
@@ -32,6 +33,70 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(favicon(path.join(__dirname, 'public', 'favicon.png')));
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.post('/api/entries', function(req, res) {
+  var text = req.body.text;
+  var mode = req.body.mode;
+  var date = req.body.date;
+
+  var query = {
+    date: date,
+    mode: mode
+  };
+
+  var update = {
+    text: text,
+    mode: mode,
+    date: date
+  };
+
+
+  var mongooseCB = function(err, entry) {
+    if (err) {
+      console.log('entry update error, mongooseCB', err);
+      return;
+    }
+
+    res.send(entry);
+  };
+
+  JournalEntries.findOne(query, function (err, entry) {
+    if (err) {
+      console.log('entry update error, findOne JournalEntries');
+      return;
+    }
+    if (entry) {
+      JournalEntries.findOneAndUpdate(query, update, {new: true}, function(err,entry) {
+        res.send(entry);
+      });
+    } else {
+      update.entryId = mongoose.Types.ObjectId();
+      JournalEntries.create(update, mongooseCB)
+    }
+  })
+});
+
+app.get('/api/entries', function(req, res) {
+  var date = req.query.date;
+  var response = {};
+
+  JournalEntries.findOne({date: date, mode: 'day'}, function(err, dayEntry) {
+    if (err) {
+      console.log('error getting dayentry');
+      return;
+    }
+    console.log(dayEntry);
+    response.day = dayEntry;
+    JournalEntries.findOne({date: date, mode: 'night'}, function(err, nightEntry) {
+      if (err) {
+        console.log('error getting nightentry');
+        return;
+      }
+      response.night = nightEntry;
+      res.send(response);
+    });
+  });
+});
 
 /**
  * GET /api/characters

@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router';
-import HomeStore from '../stores/HomeStore'
-import HomeActions from '../actions/HomeActions';
+// import HomeStore from '../stores/HomeStore'
+// import HomeActions from '../actions/HomeActions';
 
 class LongTermGoals extends React.Component {
   constructor(props) {
@@ -9,11 +9,11 @@ class LongTermGoals extends React.Component {
   }
 
   componentDidMount() {
-	HomeStore.listen(this.onChange);
+	// HomeStore.listen(this.onChange);
   }
 
   componentWillUnmount() {
-	HomeStore.unlisten(this.onChange);
+	// HomeStore.unlisten(this.onChange);
   }
 
   onChange(state) {

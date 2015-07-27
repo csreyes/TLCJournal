@@ -9,39 +9,21 @@
 @text-color: #58666f;
 @font-family-base: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 @link-color: #363f34;
-@link-hover-color: #141718;
 
-@navbar-default-bg: #fff;
-@navbar-default-link-color: #353f44;
-@navbar-default-link-hover-bg: #f6f7f7;
-@navbar-default-link-active-bg: #f6f7f7;
-
-@btn-default-color: #58666e;
-@btn-default-border: #dee5e7;
-
-@btn-primary-color: #fff;
-@btn-primary-bg: #7266bb;
-@btn-primary-border: #7266bb;
-
-@btn-success-color: #fff;
-@btn-success-bg: #27d24b;
-@btn-success-border: #27d24b;
-
-@btn-info-color: #fff;
-@btn-info-bg: #23b7f5;
-@btn-info-border: #23b7f5;
-
-@btn-warning-color: #fff;
-@btn-warning-bg: #fac732;
-@btn-warning-border: #fac732;
-
-@btn-danger-color: #fff;
-@btn-danger-bg: #f15051;
-@btn-danger-border: #f15051;
-
-@panel-default-border: #dee5e7;
-@panel-border-radius: 2px;
-@panel-default-heading-bg: #f6f8f8;
+textarea:hover, 
+input:hover, 
+textarea:active, 
+input:active, 
+textarea:focus, 
+input:focus,
+button:focus,
+button:active,
+button:hover
+{
+    outline:0px !important;
+    box-shadow: none;
+    -webkit-appearance:none;
+}
 
 @screen-sm: 800px;
 
@@ -88,7 +70,7 @@ h3 {
 
 .journal-write-container {
   order: 2;
-  flex-grow: 2.5;
+  flex-grow: 2;
   height: 100%;
 }
 
@@ -109,10 +91,66 @@ h3 {
 
 .journal-write-header {
   height: 50px;
+  text-align: center;
+}
+
+.journal-write-header-innertext {
+  font-size: 20px;
+  font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.journal-write-header-change-mode {
+  float: right;
+}
+
+.btn-default {
+  background-color: inherit;
+  border: none;
+}
+
+.btn-default:hover {
+  color: inherit;
+  background-color: inherit;
+  border: none;
+}
+
+.btn-default:focus {
+  color: inherit;
+  background-color: inherit;
+  border-top-color: white;
+}
+
+.btn-default.focus {
+  color: inherit;
+  background-color: inherit;
+  border: none;
+}
+
+.journal-write-text-container {
+  height: 592px;  
 }
 
 .journal-write-textarea {
-  height: 592px;
+  width: 100%;
+  margin: 0;
+}
+
+textarea.form-control {
+  height: 542px;
+  padding-bottom: 0;
+  margin: 0;
+  resize: none;
+}
+
+.form-group {
+  margin-bottom: 0;
+}
+
+.journal-write-textarea-save-button {
+  width: 100%;
+  height: 50px;
+  padding: 0;
+  margin: 0;
 }
 
 .longterm-goal-header{

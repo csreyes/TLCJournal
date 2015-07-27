@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router';
-import HomeStore from '../stores/HomeStore'
-import HomeActions from '../actions/HomeActions';
+import JournalStore from '../stores/JournalStore'
+import JournalActions from '../actions/JournalActions';
 import JournalWrite from './JournalWrite';
 import DailyGoals from './DailyGoals';
 import LongTermGoals from './LongTermGoals';
@@ -9,18 +9,30 @@ import LongTermGoals from './LongTermGoals';
 class JournalMainContainer extends React.Component {
   constructor(props) {
     super(props);
+    this.state = JournalStore.getState();
+    // JournalActions.getJournalData(new Date().toDateString())
   }
 
   componentDidMount() {
-    HomeStore.listen(this.onChange);
+    JournalStore.listen(this.onChange.bind(this));
+    var date = new Date().toDateString();
+    JournalActions.getJournalData($, date)
   }
 
   componentWillUnmount() {
-    HomeStore.unlisten(this.onChange);
+    JournalStore.unlisten(this.onChange.bind(this));
   }
 
   onChange(state) {
-    this.setState(state);
+    this.setState(state)
+  }
+
+  handleInput(text) {
+    var entries = this.state.entries;
+    entries[this.state.mode].text = text;
+    this.setState({
+      entries: entries
+    })
   }
 
   render() {
@@ -28,7 +40,7 @@ class JournalMainContainer extends React.Component {
     return (
       <div className='journal-inner-container test'>
         <DailyGoals />
-        <JournalWrite />
+        <JournalWrite {...this.state} onJournalInput={this.handleInput.bind(this)} />
         <LongTermGoals />
       </div>
   	);
