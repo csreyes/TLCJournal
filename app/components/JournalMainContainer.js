@@ -11,7 +11,6 @@ class JournalMainContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = JournalStore.getState();
-    console.log('state=', this.state)
   }
 
   componentDidMount() {

@@ -82,8 +82,8 @@ class longTermGoals extends React.Component {
 			  <div className='longterm-goal-list test'>
 			  	<ListGroup>
 			  	{listGroup}
-			  		<ListGroupItem style={divStyle} active onClick={this.handleAddItem.bind(this)}>Add Item</ListGroupItem>
 			  	</ListGroup>
+          <Button bsStyle='primary' onClick={this.handleAddItem.bind(this)} className='longterm-goal-save-button' >Add Item</Button>
 			  </div>
 			  <NewGoalModal {...this.state} onToggleModal={this.toggleModal.bind(this)} />
 			</div>

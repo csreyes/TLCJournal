@@ -81,9 +81,9 @@ class DailyGoals extends React.Component {
 			  <div className='daily-goal-header test'>Daily Goals</div>
 			  <div className='daily-goal-list test'>
 			  	<ListGroup>
-			  	{listGroup}
-			  		<ListGroupItem style={divStyle} active onClick={this.handleAddItem.bind(this)}>Add Item</ListGroupItem>
+  			  	{listGroup}
 			  	</ListGroup>
+          <Button bsStyle='primary' onClick={this.handleAddItem.bind(this)} className='daily-goal-save-button' >Add Item</Button>
 			  </div>
 			  <NewGoalModal {...this.state} onToggleModal={this.toggleModal.bind(this)} />
 			</div>
