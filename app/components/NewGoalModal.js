@@ -58,9 +58,9 @@ class NewGoalModal extends React.Component {
 	        <Input type='text' ref='goal-description' label='Description' placeholder='Tell us more about this goal.' />
 	        <Input type='text' ref='goal-motivation' label='Motivation' placeholder='Why complete this goal?' />
 	        <h5>From:</h5>
-	        <DateTimePicker ref='goal-start-date' mode='date' />
+	        <DateTimePicker dateTime={this.props.currentDate} ref='goal-start-date' mode='date' />
 	        <h5>To:</h5>
-	        <DateTimePicker ref='goal-end-date' mode='date' />
+	        <DateTimePicker dateTime={this.props.currentDate} ref='goal-end-date' mode='date' />
 	        
 	      </Modal.Body>
 	      <Modal.Footer>

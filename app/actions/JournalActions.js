@@ -7,7 +7,8 @@ class JournalActions {
       'getJournalDataFail',
       'saveJournalEntrySuccess',
       'saveJournalEntryFail',
-      'swapModeSuccess'
+      'swapModeSuccess',
+      'updateDateSuccess'
     );
   }
 
@@ -45,6 +46,10 @@ class JournalActions {
 
   swapMode() {
     this.actions.swapModeSuccess();
+  }
+
+  updateDate(update) {
+    this.actions.updateDateSuccess(update);
   }
 
   getTwoCharacters() {

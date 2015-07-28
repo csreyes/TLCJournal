@@ -11,11 +11,12 @@ class JournalMainContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = JournalStore.getState();
+    console.log('state=', this.state)
   }
 
   componentDidMount() {
     JournalStore.listen(this.onChange.bind(this));
-    var date = new Date().toDateString();
+    var date = this.state.currentDate.format('llll').replace(/,/g, '').split(' ').slice(0,4).join(' ');
     JournalActions.getJournalData($, date);
     GoalActions.getGoalData($, date);
   }
@@ -28,9 +29,16 @@ class JournalMainContainer extends React.Component {
     this.setState(state)
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.formattedCurrentDate !== this.state.formattedCurrentDate) {
+      var date = this.state.currentDate.format('llll').replace(/,/g, '').split(' ').slice(0,4).join(' ');
+      JournalActions.getJournalData($, date);
+      GoalActions.getGoalData($, date);
+    }
+  }
+
   handleInput(text) {
     var entries = this.state.entries;
-    console.log('entries',entries);
     entries[this.state.mode].text = text;
     this.setState({
       entries: entries

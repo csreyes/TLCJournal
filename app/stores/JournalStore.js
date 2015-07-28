@@ -1,6 +1,7 @@
 import alt from '../alt';
 import JournalActions from '../actions/JournalActions';
 import GoalActions from '../actions/GoalActions';
+import moment from 'moment';
 
 
 class JournalStore {
@@ -22,6 +23,15 @@ class JournalStore {
       daily: [],
       longTerm: []
     };
+    this.currentDate = moment();
+    this.formattedCurrentDate = this.currentDate.format('LL');
+    this.daysDifference = 0;
+  }
+
+  updateDateSuccess(update) {
+    this.daysDifference = this.daysDifference + update;
+    this.currentDate = moment().add(this.daysDifference, 'days');
+    this.formattedCurrentDate = this.currentDate.format('LL');
   }
 
   setMode() {
@@ -52,8 +62,20 @@ class JournalStore {
     this.entries[mode].date = entry.date;
   }
 
-  onGetJournalDataSuccess(response) {
-    this.entries = response;
+  onGetJournalDataSuccess(entries) {
+    if (!entries.day) {
+      entries.day = {
+        text: '',
+        date: null
+      };
+    } else if (!entries.night) {
+      entries.night = {
+        text: '',
+        date: null
+      };
+    }
+    
+    this.entries = entries;
   }
 
   onSaveGoalItemSuccess(goal) {
