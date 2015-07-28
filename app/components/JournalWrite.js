@@ -49,7 +49,7 @@ class JournalWrite extends React.Component {
       <div className='journal-write-container test'>
         <div className='journal-write-header test'>
           <div className='journal-write-header-innertext'>{{header}}</div>
-          <div className='journal-write-header-word-count'>Word Count: {this.props.entries[this.props.mode].text.split(' ').length}</div>
+          <div className='journal-write-header-word-count'>Word Count: {this.props.entries[this.props.mode] ? this.props.entries[this.props.mode].text.split(' ').length : 0}</div>
           <Button className='journal-write-header-change-mode' bsSize='xsmall' onClick={JournalActions.swapMode}>Change mode?</Button>
         </div>
         <div className='journal-write-text-container test'>
