@@ -19,14 +19,6 @@ class NewGoalModal extends React.Component {
 		JournalStore.unlisten(this.onChange.bind(this));
   }
 
-  toggleModal() {
-  	this.setState({showModal: !this.state.showModal});
-  }
-
-  handleAddItem() {
-  	this.toggleModal();
-  }
-
   handleSaveGoal() {
   	var description = this.refs['goal-description'].getValue();
   	var motivation = this.refs['goal-motivation'].getValue();
@@ -40,7 +32,7 @@ class NewGoalModal extends React.Component {
   		setCompletionDate: setCompletionDate
   	});
 
-  	this.props.onToggleModal();
+  	this.props.onToggleAddModal();
 
   }
 
@@ -50,7 +42,7 @@ class NewGoalModal extends React.Component {
 
   render() {
   	return (
-	    <Modal show={this.props.showModal} onHide={this.props.onToggleModal}>
+	    <Modal show={this.props.showAddModal} onHide={this.props.onToggleAddModal}>
 	      <Modal.Header closeButton>
 	        <Modal.Title>New Goal</Modal.Title>
 	      </Modal.Header>

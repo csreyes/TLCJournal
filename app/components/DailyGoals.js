@@ -5,12 +5,17 @@ import {Button, Input, ListGroup, ListGroupItem, Modal, OverlayTrigger, Popover}
 import GoalActions from '../actions/GoalActions';
 import JournalStore from '../stores/JournalStore';
 import NewGoalModal from './NewGoalModal';
+import EditGoalModal from './EditGoalModal';
 // import HomeActions from '../actions/HomeActions';
 
 class DailyGoals extends React.Component {
   constructor(props) {
 	super(props);
-	this.state = {showModal: false};
+	this.state = {
+    showAddModal: false,
+    showEditMOdal: false,
+    currentEditItem: null
+    };
   }
 
   componentDidMount() {
@@ -21,13 +26,18 @@ class DailyGoals extends React.Component {
 		JournalStore.unlisten(this.onChange.bind(this));
   }
 
-  toggleModal() {
-  	this.setState({showModal: !this.state.showModal});
+  toggleAddModal() {
+  	this.setState({showAddModal: !this.state.showAddModal});
+  }
+
+  toggleEditModal() {
+    this.setState({showEditModal: !this.state.showEditModal});
   }
 
   handleAddItem() {
-  	this.toggleModal();
+  	this.toggleAddModal();
   }
+
 
   handleGoalCompleted(goal) {
   	goal.completed = !goal.completed;
@@ -35,6 +45,11 @@ class DailyGoals extends React.Component {
   		goal.completionDate = new Date().toDateString();
   	}
   	GoalActions.saveGoalItem(goal);
+  }
+
+  handleEditItem(goal) {
+    this.state.currentEditItem = goal;
+    this.toggleEditModal();
   }
 
   handleSaveGoal() {
@@ -50,6 +65,14 @@ class DailyGoals extends React.Component {
   		setCompletionDate: setCompletionDate
   	});
 
+  }
+
+  handleInput(key, value) {
+    var currentGoal = this.state.currentEditItem;
+    currentGoal[key] = value;
+    this.setState({
+      currentEditItem: currentGoal
+    });
   }
 
   onChange(state) {
@@ -69,7 +92,7 @@ class DailyGoals extends React.Component {
 	  		var bsStyle = goal.completed ? 'success' : 'danger';
 	  		return (
 	  			<OverlayTrigger trigger='hover' placement='bottom' overlay={<Popover title={makeTitle(goal)}>{goal.motivation}</Popover>}>
-		  			<ListGroupItem onClick={this.handleGoalCompleted.bind(this, goal)} bsStyle={bsStyle} >{goal.description}</ListGroupItem>
+		  			<ListGroupItem onClick={this.handleEditItem.bind(this, goal)} bsStyle={bsStyle} >{goal.description}</ListGroupItem>
 					</OverlayTrigger>
 	  		)
 	  	}.bind(this));
@@ -85,7 +108,8 @@ class DailyGoals extends React.Component {
 			  	</ListGroup>
           <Button bsStyle='primary' onClick={this.handleAddItem.bind(this)} className='daily-goal-save-button' >Add Item</Button>
 			  </div>
-			  <NewGoalModal {...this.state} onToggleModal={this.toggleModal.bind(this)} />
+        <NewGoalModal {...this.state} onToggleAddModal={this.toggleAddModal.bind(this)} />
+			  <EditGoalModal {...this.state} onEditInput={this.handleInput.bind(this)} onToggleEditModal={this.toggleEditModal.bind(this)} />
 			</div>
 		);
   }

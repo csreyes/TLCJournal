@@ -7,7 +7,8 @@ var GoalsSchema = new mongoose.Schema({
   startDate: String,
   setCompletionDate: String,
   completed: Boolean,
-  completionDate: String
+  completionDate: String,
+  progress: String
 });
 
 module.exports = mongoose.model('Goals', GoalsSchema);
