@@ -50,7 +50,7 @@ class EditGoalModal extends React.Component {
 	    startDate : this.refs['goal-start-date'].state.selectedDate.format('llll').replace(/,/g, '').split(' ').slice(0,4).join(' '),
 	    setCompletionDate : this.refs['goal-end-date'].state.selectedDate.format('llll').replace(/,/g, '').split(' ').slice(0,4).join(' '),
 	    progress : this.refs['goal-progress'].getValue(),
-	    completed : this.refs['goal-completed'].getValue()
+	    completed : !this.props.currentEditItem.completed 
   	};
 
   	var value = values[key];

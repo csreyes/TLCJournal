@@ -24,6 +24,7 @@
     "mongoose": "^4.0.7",
     "morgan": "^1.6.1",
     "react": "^0.13.3",
+    "react-bootstrap": "^0.24.2",
     "react-bootstrap-datetimepicker": "0.0.18",
     "react-router": "^0.13.3",
     "request": "^2.58.0",
