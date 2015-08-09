@@ -29,9 +29,9 @@ class EditGoalModal extends React.Component {
   	var startDate = this.refs['goal-start-date'].state.selectedDate.format('llll').replace(/,/g, '').split(' ').slice(0,4).join(' ');
   	var setCompletionDate = this.refs['goal-end-date'].state.selectedDate.format('llll').replace(/,/g, '').split(' ').slice(0,4).join(' ');
   	var progress = this.refs['goal-progress'].getValue();
-  	var completed = Boolean(this.refs['goal-completed'].getValue());
+  	var completed = Boolean(this.state.completed);
+    var entryId = this.state.entryId;
 
-  	debugger;
 
   	GoalActions.saveGoalItem({
   		description: description,
@@ -39,7 +39,8 @@ class EditGoalModal extends React.Component {
   		startDate: startDate,
   		setCompletionDate: setCompletionDate,
   		progress: progress,
-  		completed: completed
+  		completed: completed,
+      entryId: entryId
   	});
 
   	this.props.onToggleEditModal();
@@ -68,6 +69,10 @@ class EditGoalModal extends React.Component {
 
   }
 
+  handleDeleteGoal() {
+    GoalActions.deleteGoalItem({entryId: this.state.entryId});
+  }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.currentEditItem) {
       var currentEditItem = nextProps.currentEditItem;
@@ -78,7 +83,8 @@ class EditGoalModal extends React.Component {
         startDate: moment(currentEditItem.startDate),
         setCompletionDate: moment(currentEditItem.setCompletionDate),
         progress: currentEditItem.progress || '',
-        completed: currentEditItem.completed || false
+        completed: currentEditItem.completed || false,
+        entryId: currentEditItem.entryId || null
       });
     }
   }
@@ -99,7 +105,7 @@ class EditGoalModal extends React.Component {
   	return (
 	    <Modal show={this.props.showEditModal} onHide={this.props.onToggleEditModal}>
 	      <Modal.Header closeButton>
-	        <Modal.Title>New Goal</Modal.Title>
+	        <Modal.Title>Edit Goal</Modal.Title>
 	      </Modal.Header>
 	      <Modal.Body>
 	        <Input type='text' ref='goal-description' onChange={this.handleEditGoalInput.bind(this, ['description'])} value={this.state.description} label='Description' placeholder='Tell us more about this goal.' />
@@ -113,8 +119,9 @@ class EditGoalModal extends React.Component {
 	        
 	      </Modal.Body>
 	      <Modal.Footer>
-	        <Button onClick={this.handleSaveGoal.bind(this)}>Save</Button>
-	      </Modal.Footer>
+          <Button onClick={this.handleSaveGoal.bind(this)}>Save</Button>
+          <Button onClick={this.handleDeleteGoal.bind(this)}>Delete</Button>
+        </Modal.Footer>
 	    </Modal>
   	)
   }

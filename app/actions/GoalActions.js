@@ -6,7 +6,9 @@ class GoalActions {
       'getGoalDataSuccess',
       'getGoalDataFail',
       'saveGoalItemSuccess',
+      'deleteGoalItemSuccess',
       'saveGoalItemFail',
+      'deleteGoalItemFail',
       'swapModeSuccess'
     );
   }
@@ -26,6 +28,7 @@ class GoalActions {
   }
 
   saveGoalItem(data) {
+    data.delete = true;
     $.ajax({
       type: 'PUT',
       url: '/api/goals',
@@ -34,6 +37,22 @@ class GoalActions {
       .done(data => {
       	console.log('success data=', data)
         this.actions.saveGoalItemSuccess(data);
+      })
+      .fail(jqXhr => {
+        this.actions.saveGoalItemFail(jqXhr.responseJSON.message);
+      });
+  }
+
+  deleteGoalItem(data) {
+    $.ajax({
+      type: 'PUT',
+      url: '/api/goals',
+      data: data
+    })
+      .done(data => {
+        console.log('success data=', data)
+        debugger;
+        this.actions.deleteGoalItemSuccess(data);
       })
       .fail(jqXhr => {
         this.actions.saveGoalItemFail(jqXhr.responseJSON.message);

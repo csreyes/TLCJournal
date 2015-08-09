@@ -82,9 +82,10 @@ class DailyGoals extends React.Component {
   render() {
   	var makeTitle = function(goal) {
   		if (goal.completed) {
-  			return 'Completed on '+ goal.completionDate
-  		}
-  		return 'Complete by ' + goal.setCompletionDate;
+  			return 'Completed'
+  		} else {
+    		return 'Complete by ' + goal.setCompletionDate;
+      }
   	}
   	var divStyle = {textAlign: 'center'};
   	if (this.props.goals.daily.length > 0) {

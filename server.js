@@ -148,6 +148,14 @@ app.put('/api/goals', function(req, res) {
 
   var query = {entryId: entryId};
 
+  if (req.body.delete) {
+    Goals.remove(query, function(err, response) {
+      console.log(response);
+      res.send(response);
+      return;
+    })
+  }
+
   var update = {
     description: description,
     motivation: motivation,
