@@ -33,6 +33,7 @@ class Journal extends React.Component {
   }
 
   render() {
+    var weeklyQuote = 'Plan well and follow through. It\'ll take you places you didn\'t know you could go.'
 
     return (
       <div className='journal-outer-container test'>
@@ -45,6 +46,9 @@ class Journal extends React.Component {
           <h3 className='journal-outer-container-header-innertext'>TLC Journal</h3>
         </div>
         <JournalMainContainer />
+        <div className='journal-footer'>
+          <span className='journal-footer-text'>{weeklyQuote}</span>
+        </div>
       </div>
     );
   }

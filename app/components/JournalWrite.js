@@ -10,7 +10,7 @@ class JournalWrite extends React.Component {
   }
 
   handleSaveEntry() {
-    var date = new Date().toDateString();
+    var date = this.props.currentDate.format('ddd MMM D YYYY');
     var text = this.refs.journalEntryInput.getValue();
     var mode = this.props.mode;
 

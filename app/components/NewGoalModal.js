@@ -24,12 +24,14 @@ class NewGoalModal extends React.Component {
   	var motivation = this.refs['goal-motivation'].getValue();
   	var startDate = this.refs['goal-start-date'].state.selectedDate.format('llll').replace(/,/g, '').split(' ').slice(0,4).join(' ');
   	var setCompletionDate = this.refs['goal-end-date'].state.selectedDate.format('llll').replace(/,/g, '').split(' ').slice(0,4).join(' ')
+    var date = this.state.currentDate.format('llll').replace(/,/g, '').split(' ').slice(0,4).join(' ');
 
   	GoalActions.saveGoalItem({
   		description: description,
   		motivation: motivation,
   		startDate: startDate,
-  		setCompletionDate: setCompletionDate
+  		setCompletionDate: setCompletionDate,
+      date: date
   	});
 
   	this.props.onToggleAddModal();

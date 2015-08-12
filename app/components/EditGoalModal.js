@@ -31,6 +31,7 @@ class EditGoalModal extends React.Component {
   	var progress = this.refs['goal-progress'].getValue();
   	var completed = Boolean(this.state.completed);
     var entryId = this.state.entryId;
+    var date = this.state.currentDate.format('llll').replace(/,/g, '').split(' ').slice(0,4).join(' ');
 
 
   	GoalActions.saveGoalItem({
@@ -40,7 +41,8 @@ class EditGoalModal extends React.Component {
   		setCompletionDate: setCompletionDate,
   		progress: progress,
   		completed: completed,
-      entryId: entryId
+      entryId: entryId,
+      date: date
   	});
 
   	this.props.onToggleEditModal();
@@ -61,8 +63,6 @@ class EditGoalModal extends React.Component {
     if (key === 'completed') {
       values.completed = !(this.state.completed);
     }
-    console.log('state start date = ', this.state.startDate);
-    console.log('ref start date = ', this.refs['goal-start-date'].state.selectedDate);
 
   	var value = values[key];
   	this.setState(values);
@@ -70,13 +70,17 @@ class EditGoalModal extends React.Component {
   }
 
   handleDeleteGoal() {
-    GoalActions.deleteGoalItem({entryId: this.state.entryId});
+    var date = this.state.currentDate.format('llll').replace(/,/g, '').split(' ').slice(0,4).join(' ');
+    GoalActions.deleteGoalItem({
+      entryId: this.state.entryId,
+      date: date
+    });
+    this.props.onToggleEditModal();
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.currentEditItem) {
       var currentEditItem = nextProps.currentEditItem;
-      console.log('first start', currentEditItem.startDate)
       this.setState({
         description: currentEditItem.description,
         motivation: currentEditItem.motivation,
@@ -109,7 +113,7 @@ class EditGoalModal extends React.Component {
 	      </Modal.Header>
 	      <Modal.Body>
 	        <Input type='text' ref='goal-description' onChange={this.handleEditGoalInput.bind(this, ['description'])} value={this.state.description} label='Description' placeholder='Tell us more about this goal.' />
-	        <Input type='textarea' style={textAreaStyle} ref='goal-motivation' onChange={this.handleEditGoalInput.bind(this, ['motivation'])}value={this.state.currentEditItem} label='Motivation' placeholder='Why complete this goal?' />
+	        <Input type='textarea' style={textAreaStyle} ref='goal-motivation' onChange={this.handleEditGoalInput.bind(this, ['motivation'])}value={this.state.motivation} label='Motivation' placeholder='Why complete this goal?' />
 	        <Input type='textarea' style={textAreaStyle} ref='goal-progress' onChange={this.handleEditGoalInput.bind(this, ['progress'])} value={this.state.progress} label='Progress' placeholder='Progress updates/How do you plan on better completing this?' />
 	        <Input type='checkbox' ref='goal-completed' onChange={this.handleEditGoalInput.bind(this, ['completed'])} label='Completed'  checked={this.state.completed} help='if not, keep working on it' />
 	        <h5>From:</h5>

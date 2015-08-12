@@ -23,6 +23,7 @@ class longTermGoals extends React.Component {
 
   toggleModal() {
   	this.setState({showModal: !this.state.showModal});
+    debugger;
   }
 
   handleAddItem() {
@@ -85,7 +86,7 @@ class longTermGoals extends React.Component {
 			  	</ListGroup>
           <Button bsStyle='primary' onClick={this.handleAddItem.bind(this)} className='longterm-goal-save-button' >Add Item</Button>
 			  </div>
-			  <NewGoalModal {...this.state} onToggleModal={this.toggleModal.bind(this)} />
+			  <NewGoalModal {...this.state} onToggleAddModal={this.toggleModal.bind(this)} />
 			</div>
 		);
   }

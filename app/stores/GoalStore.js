@@ -11,10 +11,13 @@ class GoalStore {
   }
 
   onSaveGoalItemSuccess(data) {
+    debugger;
+    console.log('got here 1')
     this.goals = data;
   }
 
   onGetGoalDataSuccess(data) {
+    console.log('got here 2')
     this.goals = data;
   }
 

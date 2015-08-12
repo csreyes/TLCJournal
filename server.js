@@ -18,7 +18,7 @@ var config = require('./config');
 var routes = require('./app/routes');
 var Character = require('./models/character');
 var JournalEntries = require('./models/journalEntries');
-var Goals = require('./models/goals');
+var Goals = require('./controllers/goalController');
 
 
 var app = express();
@@ -100,96 +100,8 @@ app.get('/api/entries', function(req, res) {
   });
 });
 
-app.get('/api/goals', function(req, res) {
-  var date = req.query.date;
-  var response = {};
-
-  Goals.find({}, function(err, allGoals) {
-    if (err) {
-      console.log('error getting goals');
-      return;
-    }
-
-    var relevantGoals = allGoals.filter(function(singleGoal) {
-      var startTime = new Date(singleGoal.startDate).getTime();
-      var setCompletionTime = new Date(singleGoal.setCompletionDate).getTime();
-      var currentTime = new Date(date).getTime();
-
-      return currentTime >= startTime && currentTime <= setCompletionTime;
-
-    });
-
-    var goals = {
-      daily: [],
-      longTerm: []
-    };
-
-    relevantGoals.forEach(function(goal) {
-      if (goal.startDate === goal.setCompletionDate) {
-        goals.daily.push(goal);
-      } else {
-        goals.longTerm.push(goal);
-      }
-    });
-    console.log('endgoals=', goals);
-
-    res.send(goals);
-  });
-});
-
-app.put('/api/goals', function(req, res) {
-  var entryId = req.body.entryId || null;
-  var description = req.body.description;
-  var motivation = req.body.motivation;
-  var startDate= req.body.startDate;
-  var setCompletionDate= req.body.setCompletionDate;
-  var completed = req.body.completed || null;
-  var completionDate = req.body.completionDate || null;
-
-  var query = {entryId: entryId};
-
-  if (req.body.delete) {
-    Goals.remove(query, function(err, response) {
-      console.log(response);
-      res.send(response);
-      return;
-    })
-  }
-
-  var update = {
-    description: description,
-    motivation: motivation,
-    startDate: startDate,
-    setCompletionDate: setCompletionDate,
-    completed: completed,
-    completionDate: completionDate
-  };
-
-
-  var mongooseCB = function(err, entry) {
-    if (err) {
-      console.log('entry update error, mongooseCB', err);
-      return;
-    }
-
-    res.send(entry);
-  };
-
-  Goals.findOne(query, function (err, entry) {
-    if (err) {
-      console.log('entry update error, findOne JournalEntries');
-      return;
-    }
-    if (entry) {
-      Goals.findOneAndUpdate(query, update, {new: true}, function(err,entry) {
-        res.send(entry);
-      });
-    } else {
-      update.entryId = mongoose.Types.ObjectId();
-      Goals.create(update, mongooseCB)
-    }
-  })
-});
+app.get('/api/goals', Goals.getGoals);
+app.put('/api/goals', Goals.addAndUpdateGoals, Goals.getGoals);
 
 /**
  * GET /api/characters

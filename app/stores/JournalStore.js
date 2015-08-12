@@ -78,29 +78,12 @@ class JournalStore {
     this.entries = entries;
   }
 
-  onSaveGoalItemSuccess(goal) {
-    var replaced = false;
-    if (goal.startDate === goal.setCompletionDate) {
-      this.goals.daily.forEach(function(singleGoal, i) {
-        if (singleGoal.entryId === goal.entryId) {
-          this.goals.daily[i] = goal;
-          replaced = true;
-        }
-      }.bind(this))
-      if (!replaced) {
-        this.goals.daily.push(goal);
-      }
-    } else {
-      this.goals.longTerm.forEach(function(singleGoal, i) {
-        if (singleGoal.entryId === goal.entryId) {
-          this.goals.longTerm[i] = goal;
-          replaced = true;
-        }
-      }.bind(this))
-      if (!replaced) {
-        this.goals.longTerm.push(goal);
-      }
-    }
+  onDeleteGoalItemSuccess(data) {
+    this.goals = data;
+  }
+
+  onSaveGoalItemSuccess(data) {
+    this.goals = data;
   }
 
   onGetGoalDataSuccess(data) {

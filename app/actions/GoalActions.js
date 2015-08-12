@@ -28,14 +28,12 @@ class GoalActions {
   }
 
   saveGoalItem(data) {
-    data.delete = true;
     $.ajax({
       type: 'PUT',
       url: '/api/goals',
       data: data
     })
       .done(data => {
-      	console.log('success data=', data)
         this.actions.saveGoalItemSuccess(data);
       })
       .fail(jqXhr => {
@@ -44,13 +42,13 @@ class GoalActions {
   }
 
   deleteGoalItem(data) {
+    data.delete = true;
     $.ajax({
       type: 'PUT',
       url: '/api/goals',
       data: data
     })
       .done(data => {
-        console.log('success data=', data)
         debugger;
         this.actions.deleteGoalItemSuccess(data);
       })
