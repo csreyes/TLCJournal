@@ -38,6 +38,9 @@ class JournalMainContainer extends React.Component {
 
   handleInput(text) {
     var entries = this.state.entries;
+    if (!entries[this.state.mode]) {
+      entries[this.state.mode] = {};
+    }
     entries[this.state.mode].text = text;
     this.setState({
       entries: entries

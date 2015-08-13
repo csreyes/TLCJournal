@@ -5,6 +5,7 @@ import {Button, Input, ListGroup, ListGroupItem, Modal, OverlayTrigger, Popover}
 import GoalActions from '../actions/GoalActions';
 import JournalStore from '../stores/JournalStore';
 import NewGoalModal from './NewGoalModal';
+import EditGoalModal from './EditGoalModal';
 // import HomeActions from '../actions/HomeActions';
 
 class longTermGoals extends React.Component {
@@ -22,12 +23,20 @@ class longTermGoals extends React.Component {
   }
 
   toggleModal() {
-  	this.setState({showModal: !this.state.showModal});
-    debugger;
+  	this.setState({showAddModal: !this.state.showAddModal});
   }
 
   handleAddItem() {
   	this.toggleModal();
+  }
+
+  toggleEditModal() {
+    this.setState({showEditModal: !this.state.showEditModal});
+  }
+
+  handleEditItem(goal) {
+    this.state.currentEditItem = goal;
+    this.toggleEditModal();
   }
 
   handleGoalCompleted(goal) {
@@ -36,6 +45,14 @@ class longTermGoals extends React.Component {
   		goal.completionDate = new Date().toDateString();
   	}
   	GoalActions.saveGoalItem(goal);
+  }
+
+  handleInput(key, value) {
+    var currentGoal = this.state.currentEditItem;
+    currentGoal[key] = value;
+    this.setState({
+      currentEditItem: currentGoal
+    });
   }
 
   handleSaveGoal() {
@@ -70,7 +87,7 @@ class longTermGoals extends React.Component {
 	  		var bsStyle = goal.completed ? 'success' : 'danger';
 	  		return (
 	  			<OverlayTrigger trigger='hover' placement='bottom' overlay={<Popover title={makeTitle(goal)}>{goal.motivation}</Popover>}>
-		  			<ListGroupItem onClick={this.handleGoalCompleted.bind(this, goal)} bsStyle={bsStyle} >{goal.description}</ListGroupItem>
+		  			<ListGroupItem onClick={this.handleEditItem.bind(this, goal)} bsStyle={bsStyle} >{goal.description}</ListGroupItem>
 					</OverlayTrigger>
 	  		)
 	  	}.bind(this));
@@ -87,6 +104,7 @@ class longTermGoals extends React.Component {
           <Button bsStyle='primary' onClick={this.handleAddItem.bind(this)} className='longterm-goal-save-button' >Add Item</Button>
 			  </div>
 			  <NewGoalModal {...this.state} onToggleAddModal={this.toggleModal.bind(this)} />
+        <EditGoalModal {...this.state} onEditInput={this.handleInput.bind(this)} onToggleEditModal={this.toggleEditModal.bind(this)} />
 			</div>
 		);
   }

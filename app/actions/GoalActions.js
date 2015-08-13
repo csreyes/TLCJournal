@@ -49,7 +49,6 @@ class GoalActions {
       data: data
     })
       .done(data => {
-        debugger;
         this.actions.deleteGoalItemSuccess(data);
       })
       .fail(jqXhr => {
